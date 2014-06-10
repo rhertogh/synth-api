@@ -72,7 +72,7 @@ exports.post = function (req, res) {
   });
 };
 
-// Multiple callbacks may be given, simply return a array with callbacks (note the 'next' argument in the first function)
+// Multiple callbacks may be given, simply pass an array with callbacks (note the 'next' argument in the first function)
 exports.getIndex = [
 
   //in this example we first check if the user is authenticated ...
