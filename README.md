@@ -72,22 +72,25 @@ exports.post = function (req, res) {
   });
 };
 
-// Multiple callbacks may be given, simply pass an array with callbacks (note the 'next' argument in the first function)
+// Multiple callbacks may be given, simply pass an array with callbacks
+// Please note the 'next' argument in the first function,
+// only by calling this function the next callback in the array will run.
 exports.getIndex = [
 
   //in this example we first check if the user is authenticated ...
   function (req, res, next) {
 
-		// ... if user is authenticated in the session, carry on 
-		if (req.isAuthenticated())
-			return next();
+    // ... if user is authenticated in the session, carry on 
+    if (req.isAuthenticated())
+      return next();
 
-		// if they aren't throw new Error,
-		// another option would be to return a JSON object with an error e.g. return ({error: 'Authentication required'});
-		throw new Error('Authentication required')
-	},
+    // ... if they aren't throw new Error.
+    throw new Error('Authentication required')
+    // Another option would be to return a JSON object with an error.
+    // e.g. return ({error: 'Authentication required'});
+  },
 	
-	// This function will be invoked by the 'next()' call in the previous function 
+  // This function will be invoked by the 'next()' call in the previous function 
   function (req, res) {
     return {
       tweets: [
