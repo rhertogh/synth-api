@@ -71,6 +71,36 @@ exports.post = function (req, res) {
     }
   });
 };
+
+// Multiple callbacks may be given, simply return a array with callbacks (note the 'next' argument in the first function)
+exports.getIndex = [
+
+  //in this example we first check if the user is authenticated ...
+  function (req, res, next) {
+
+		// ... if user is authenticated in the session, carry on 
+		if (req.isAuthenticated())
+			return next();
+
+		// if they aren't throw new Error,
+		// another option would be to return a JSON object with an error e.g. return ({error: 'Authentication required'});
+		throw new Error('Authentication required')
+	},
+	
+	// This function will be invoked by the 'next()' call in the previous function 
+  function (req, res) {
+    return {
+      tweets: [
+        {
+          message: "Fake tweet!",
+          createdAt: new Date()
+        }
+      ]
+    };
+  }
+];
+
+
 ```
 
 The above will create request handlers for the following routes:
